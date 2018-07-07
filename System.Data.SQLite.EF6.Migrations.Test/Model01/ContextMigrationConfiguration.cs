@@ -1,5 +1,4 @@
-﻿using System;
-using System.Data.Entity.Migrations;
+﻿using System.Data.Entity.Migrations;
 
 namespace System.Data.SQLite.EF6.Migrations.Test.Model01
 {
@@ -7,8 +6,9 @@ namespace System.Data.SQLite.EF6.Migrations.Test.Model01
     {
         public ContextMigrationConfiguration()
         {
-            AutomaticMigrationsEnabled = true;
-            AutomaticMigrationDataLossAllowed = true;
+            //set this "false" test  manual migration 
+            AutomaticMigrationsEnabled = false;
+            AutomaticMigrationDataLossAllowed = false;
             SetSqlGenerator("System.Data.SQLite", new SQLiteMigrationSqlGenerator());
         }
     }

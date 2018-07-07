@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Data.Common;
 using System.Data.Entity.Core.Common;
 using System.Data.Entity.Core.Common.CommandTrees;
@@ -36,6 +35,7 @@ namespace System.Data.SQLite.EF6.Migrations
         /// </returns>
         public override IEnumerable<MigrationStatement> Generate(IEnumerable<MigrationOperation> migrationOperations, string providerManifestToken)
         {
+
             List<MigrationStatement> migrationStatements = new List<MigrationStatement>();
 
             foreach (MigrationOperation migrationOperation in migrationOperations)
@@ -307,7 +307,7 @@ namespace System.Data.SQLite.EF6.Migrations
             if (migrationOperation.IsUnique)
                 ddlBuilder.AppendSql("UNIQUE ");
             ddlBuilder.AppendSql("INDEX ");
-            ddlBuilder.AppendIdentifier(migrationOperation.Name);
+            ddlBuilder.AppendIdentifier(migrationOperation.Name + "_" + GetRandomString());
             ddlBuilder.AppendSql(" ON ");
             ddlBuilder.AppendIdentifier(migrationOperation.Table);
             ddlBuilder.AppendSql(" (");
@@ -315,6 +315,19 @@ namespace System.Data.SQLite.EF6.Migrations
             ddlBuilder.AppendSql(")");
 
             return ddlBuilder.GetCommandText();
+        }
+
+        public string GetRandomString()
+        {
+            Random random = new Random(Guid.NewGuid().GetHashCode());
+            string randomValue = "";
+            for (int n = 0; n < 8; n++)
+            {
+                byte b = (byte)random.Next(15);
+                randomValue += string.Format("{0:x1}", b);
+            }
+
+            return randomValue;
         }
 
         #endregion
